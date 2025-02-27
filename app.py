@@ -47,4 +47,4 @@ def subnet_calc(ip_addres):
         return False
 
 while True:
-    ip_address =  input("## Please Enter your Desired ip address ##")
+    ip_address =  input("## Please Enter your Desired ip address ###")
