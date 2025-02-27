@@ -11,7 +11,7 @@ def subnet_calc(ip_addres):
             return False
         
         # Convert octets into integers (casting)
-        octets = [int(octets) for octet in ip_octets]
+        octets = [int(octet) for octet in ip_octets]
 
         # Ensure all octets are within 0-255
         if not all(0 <= octet <= 255 for octet in octets):
@@ -22,7 +22,7 @@ def subnet_calc(ip_addres):
 
         if  (first == 10) or \
             (first == 172 and 16 <= second <= 31) or \
-            (first == 192 and 168):
+            (first == 192 and second == 168):
                 return False
         
         if first == 127:
@@ -31,10 +31,10 @@ def subnet_calc(ip_addres):
         if first == 169 and second == 254:
             return "APIPA (DHCP Auto-Assign)"
         
-        if 224 <= 239:
+        if 224 <= first <= 239:
             return "Multicast Address IP"
         
-        if 240 < 255:
+        if 240 < first <= 255:
             return "Experimental Address/Reserved"
         
 
@@ -47,4 +47,11 @@ def subnet_calc(ip_addres):
         return False
 
 while True:
-    ip_address =  input("## Please Enter your Desired ip address ###")
+    ip_address =  input("## Please Enter your Desired ip address ###:")
+    result = subnet_calc(ip_address)
+
+    if result:
+        print("The IP address is VALID: ", result)
+        break
+    else:
+        print("The IP address is INVALID:", result)
