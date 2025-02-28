@@ -1,7 +1,7 @@
 import random
 import sys
 
-def subnet_calc(ip_addres):
+def subnet_calc(ip_address):
     try:
         print("\n")
         # Convert an address into octets ->|
@@ -54,10 +54,9 @@ def subnet_calc(ip_addres):
 
 def subnetMask(mask):
     try:
-        print("Subnet mask validation check")
         mask_octets = mask.split('.')
 
-        if len(mask_octets != 4):
+        if len(mask_octets) != 4:
             return False
         
         octets = [int(octet) for octet in mask_octets]
@@ -67,44 +66,65 @@ def subnetMask(mask):
         if not all(octet in valid_values for octet in octets):
             return False
         
-        # Continuqous subnet mask ex : 255.0.255.0 not allowed
+        binary_mask = "".join(bin(octet)[2:].zfill(8) for octet in octets)
 
-        binary_octets = []
-        for octet in octets:
-            binary_representation = bin(octet)[]
-            return True
+        # # Continuqous subnet mask ex : 255.0.255.0 not allowed
+        # binary_octets = []
+        # for octet in octets:
+        #     binary_representation = bin(octet)[2:].zfill(8)
+        #     binary_octets.append(binary_representation)
+        
+        # # Merge all binary octets into single string
+        # binary_mask = "".join(binary_octets)
+        
+        # for binary_octet in binary_octets:
+        #     binary_mask += binary_octet
 
+        if "01" in binary_mask:
+            return "Invalid Subnet mask!" 
+        
+        # first = octets[0]
+        # second = octets[1]
+        # third = octets[2]
+        # fourth = octets[3]
 
-        first = octets[0]
-        second = octets[1]
-        third = octets[2]
-        fourth = octets[3]
+        # if (first == 255):
+        #     return "Class A Subnet"
+        # if (first == 255 and second == 255):
+        #     return "Class B Subnet"
+        # if (first == 255 and second == 255 and third == 255):
+        #     return "Class C Subnet"
 
-        if (first == 255):
-            return "Class A Subnet"
-        if (first == 255 and second == 255):
-            return "Class B Subnet"
-        if (first == 255 and second == 255 and third == 255):
-            return "Class C Subnet"
+        if octets == [255, 0, 0, 0]:
+            return "Class A Subnet (255.0.0.0)"
+        if octets == [255, 255, 0, 0]:
+            return "Class B Subnet (255.255.0.0)"
+        if octets == [255, 255, 255, 0]:
+            return "Class C Subnet (255.255.255.0)"
 
     except ValueError:
-        return False
+        return "Not a valid Subnet mask please try again"
 
 
 while True:
+    print("Ip address calculator app designed for CCNA students!")
     ip_address =  input("## Please Enter your Desired IP address ###:")
     mask_address = input("## Plesae Enter your Desired Subnet Mask ##")
+        
     resultI = subnet_calc(ip_address)
-    resultM = subnetMask(mask)
+    resultM = subnetMask(mask_address)
 
     if resultI:
         print("The IP address is VALID: ", resultI)
-        break
     else:
         print("The IP address is INVALID:", resultI)
 
     if resultM:
         print("The Subnet Mask is VALID:", resultM)
-        break
     else:
         print("Subnet Mask is INVALID:", resultM)
+
+    break  
+
+        
+        
