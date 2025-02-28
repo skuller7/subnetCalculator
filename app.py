@@ -18,12 +18,18 @@ def subnet_calc(ip_addres):
             return False
         
         first = octets[0]
-        second =  octets[1]
+        second = octets[1]
+        third = octets[2]
+        fourth = octets[3]
 
-        if  (first == 10) or \
-            (first == 172 and 16 <= second <= 31) or \
-            (first == 192 and second == 168):
-                return False
+        if (first == 10):
+            return "Private Address"
+
+        if (first == 172 and 16 <= second <= 31):
+            return "Private Address"
+
+        if (first == 192 and second == 168):
+            return "Private Address"
         
         if first == 127:
             return "Loopback address"
@@ -46,12 +52,59 @@ def subnet_calc(ip_addres):
     except ValueError:
         return False
 
-while True:
-    ip_address =  input("## Please Enter your Desired ip address ###:")
-    result = subnet_calc(ip_address)
+def subnetMask(mask):
+    try:
+        print("Subnet mask validation check")
+        mask_octets = mask.split('.')
 
-    if result:
-        print("The IP address is VALID: ", result)
+        if len(mask_octets != 4):
+            return False
+        
+        octets = [int(octet) for octet in mask_octets]
+
+        valid_values = [0, 128, 192, 224, 240, 248, 252, 254, 255]
+
+        if not all(octet in valid_values for octet in octets):
+            return False
+        
+        # Continuqous subnet mask ex : 255.0.255.0 not allowed
+
+        binary_octets = []
+        for octet in octets:
+            binary_representation = bin(octet)[]
+            return True
+
+
+        first = octets[0]
+        second = octets[1]
+        third = octets[2]
+        fourth = octets[3]
+
+        if (first == 255):
+            return "Class A Subnet"
+        if (first == 255 and second == 255):
+            return "Class B Subnet"
+        if (first == 255 and second == 255 and third == 255):
+            return "Class C Subnet"
+
+    except ValueError:
+        return False
+
+
+while True:
+    ip_address =  input("## Please Enter your Desired IP address ###:")
+    mask_address = input("## Plesae Enter your Desired Subnet Mask ##")
+    resultI = subnet_calc(ip_address)
+    resultM = subnetMask(mask)
+
+    if resultI:
+        print("The IP address is VALID: ", resultI)
         break
     else:
-        print("The IP address is INVALID:", result)
+        print("The IP address is INVALID:", resultI)
+
+    if resultM:
+        print("The Subnet Mask is VALID:", resultM)
+        break
+    else:
+        print("Subnet Mask is INVALID:", resultM)
